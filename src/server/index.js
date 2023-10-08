@@ -13,6 +13,14 @@ app.use(function(req, res, next) {
 
 app.use(express.static('dist'));
 
-app.get('/api/items', (req, res) => res.send({ items }));
+app.get('/api/items', (req, res) => {
+    const searchQuery = req.query.name;
+    
+    const filteredItems = items.filter(item =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  
+    res.send({ items: filteredItems });
+  });
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));

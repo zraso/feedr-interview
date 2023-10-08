@@ -4,25 +4,25 @@ import Item from './item/item';
 
 const App = () => {
   const [items, setItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
 
-  const fetchItemsData = () => {
-    fetch("http://localhost:8080/api/items/")
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json()
-    })
-    .then(data => {
+  const fetchItemsData = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/items/?name=${searchQuery}`)
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+      const data = await response.json();
       setItems(data.items)
-    })
-    .catch(error => console.error("Error fetching items:", error))
+    } catch(error) {
+        console.error("Error fetching items:", error);
+      }
   }
 
   useEffect(() => {
     fetchItemsData()
-  }, [])
+  }, [searchQuery])
 
   const handleItemSelect = (item) => {
     setSelectedItems([...selectedItems, item]);
@@ -48,7 +48,7 @@ const App = () => {
         <div className="row">
           <div className="col-4">
             <div className="filters">
-              <input className="form-control" placeholder="Name" />
+              <input className="form-control" placeholder="Name" type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
             </div>
             <ul className="item-picker">
               {items.length > 0 && (
@@ -66,53 +66,16 @@ const App = () => {
                   <li className="item" key={selectedItem.id}>
                     <h2>{selectedItem.name}</h2>
                     <p>
-                      {/* Display dietary information here */}
+                      {
+                        selectedItem.dietaries.map((dietary) => (
+                          <span key={dietary} className="dietary">{dietary}</span>
+                        ))
+                      }
                     </p>
                     <button className="remove-item">x</button>
                   </li>
                 ))
               }
-              {/* {selectedItems.length > 0 && (
-                selectedItems.map((item) => (
-                  <Item key={item.id} item={item} />
-                ))
-              )} */}
-              {/* <li className="item">
-                <h2>Dummy item</h2>
-                <p>
-                  <span className="dietary">ve</span>
-                  <span className="dietary">v</span>
-                  <span className="dietary">n!</span>
-                </p>
-                <button className="remove-item">x</button>
-              </li>
-              <li className="item">
-                <h2>Dummy item</h2>
-                <p>
-                  <span className="dietary">ve</span>
-                  <span className="dietary">v</span>
-                  <span className="dietary">n!</span>
-                </p>
-                <button className="remove-item">x</button>
-              </li>
-              <li className="item">
-                <h2>Dummy item</h2>
-                <p>
-                  <span className="dietary">ve</span>
-                  <span className="dietary">v</span>
-                  <span className="dietary">n!</span>
-                </p>
-                <button className="remove-item">x</button>
-              </li>
-              <li className="item">
-                <h2>Dummy item</h2>
-                <p>
-                  <span className="dietary">ve</span>
-                  <span className="dietary">v</span>
-                  <span className="dietary">n!</span>
-                </p>
-                <button className="remove-item">x</button>
-              </li> */}
             </ul>
           </div>
         </div>
