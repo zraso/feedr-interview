@@ -6,6 +6,7 @@ const App = () => {
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
+  const [dietaryCounts, setDietaryCounts] = useState({});
 
   const fetchItemsData = async () => {
     try {
@@ -24,13 +25,25 @@ const App = () => {
     fetchItemsData()
   }, [searchQuery])
 
+  const updateDietaryCounts = (itemsToUpdate) => {
+    const newDietaryCounts = {};
+    itemsToUpdate.forEach(item => {
+      item.dietaries.forEach(dietary => {
+        newDietaryCounts[dietary] = (newDietaryCounts[dietary] || 0) + 1;
+      });
+    });
+    setDietaryCounts(newDietaryCounts);
+  };
+
   const handleItemSelect = (item) => {
     setSelectedItems([...selectedItems, item]);
+    updateDietaryCounts(selectedItems);
   };
 
   const handleRemoveItem = (itemToRemove) => {
     const updatedSelectedItems = selectedItems.filter(item => item.id !== itemToRemove.id);
     setSelectedItems(updatedSelectedItems);
+    updateDietaryCounts(updatedSelectedItems);
   };
 
   const totalSelectedItems = selectedItems.length;
@@ -44,9 +57,11 @@ const App = () => {
               <span>{`${totalSelectedItems} items`}</span>
             </div>
             <div className="col-6 menu-summary-right">
-              6x <span className="dietary">ve</span>
-              4x <span className="dietary">v</span>
-              12x <span className="dietary">n!</span>
+            {Object.entries(dietaryCounts).map(([dietary, count]) => (
+              <span>
+                {`${count}x`} <span key={dietary} className="dietary">{dietary}</span>
+              </span>
+            ))}
             </div>
           </div>
         </div>
