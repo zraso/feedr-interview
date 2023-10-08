@@ -28,6 +28,11 @@ const App = () => {
     setSelectedItems([...selectedItems, item]);
   };
 
+  const handleRemoveItem = (itemToRemove) => {
+    const updatedSelectedItems = selectedItems.filter(item => item.id !== itemToRemove.id);
+    setSelectedItems(updatedSelectedItems);
+  };
+
   return (
     <div className="wrapper">
       <div className="menu-summary">
@@ -72,7 +77,7 @@ const App = () => {
                         ))
                       }
                     </p>
-                    <button className="remove-item">x</button>
+                    <button className="remove-item" onClick={() => handleRemoveItem(selectedItem)}>x</button>
                   </li>
                 ))
               }
