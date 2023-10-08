@@ -3,7 +3,8 @@ import './App.css';
 import Item from './item/item';
 
 const App = () => {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const fetchItemsData = () => {
     fetch("http://localhost:8080/api/items/")
@@ -22,6 +23,10 @@ const App = () => {
   useEffect(() => {
     fetchItemsData()
   }, [])
+
+  const handleItemSelect = (item) => {
+    setSelectedItems([...selectedItems, item]);
+  };
 
   return (
     <div className="wrapper">
@@ -48,7 +53,7 @@ const App = () => {
             <ul className="item-picker">
               {items.length > 0 && (
                 items.map((item) => (
-                  <Item key={item.id} item={item} />
+                  <Item key={item.id} item={item} onSelect={() => handleItemSelect(item)} />
                 ))
               )}
             </ul>
@@ -56,7 +61,23 @@ const App = () => {
           <div className="col-8">
             <h2>Menu preview</h2>
             <ul className="menu-preview">
-              <li className="item">
+              {
+                selectedItems.map(selectedItem => (
+                  <li className="item" key={selectedItem.id}>
+                    <h2>{selectedItem.name}</h2>
+                    <p>
+                      {/* Display dietary information here */}
+                    </p>
+                    <button className="remove-item">x</button>
+                  </li>
+                ))
+              }
+              {/* {selectedItems.length > 0 && (
+                selectedItems.map((item) => (
+                  <Item key={item.id} item={item} />
+                ))
+              )} */}
+              {/* <li className="item">
                 <h2>Dummy item</h2>
                 <p>
                   <span className="dietary">ve</span>
@@ -91,7 +112,7 @@ const App = () => {
                   <span className="dietary">n!</span>
                 </p>
                 <button className="remove-item">x</button>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

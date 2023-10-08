@@ -1,11 +1,14 @@
 import React from "react";
 import './item.css';
 
-const Item = (param) => {
-   const item = param['item'];
+const Item = ({ item, onSelect }) => {
+
+   const handleItemClick = () => {
+    onSelect(item);
+  };
    
     return (
-        <li key={item.id} className="item">
+        <li key={item.id} className="item" onClick={handleItemClick}>
         <h2>{item.name}</h2>
           <p>
             {item.dietaries.length > 0 && (
