@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Item from './item/item';
+import Item from './components/item/item';
+import PreviewItem from './components/previewItem/previewItem';
 
 const App = () => {
   const [items, setItems] = useState([]);
@@ -84,18 +85,8 @@ const App = () => {
             <h2>Menu preview</h2>
             <ul className="menu-preview">
               {
-                selectedItems.map(selectedItem => (
-                  <li className="item" key={selectedItem.id}>
-                    <h2>{selectedItem.name}</h2>
-                    <p>
-                      {
-                        selectedItem.dietaries.map((dietary) => (
-                          <span key={dietary} className="dietary">{dietary}</span>
-                        ))
-                      }
-                    </p>
-                    <button className="remove-item" onClick={() => handleRemoveItem(selectedItem)}>x</button>
-                  </li>
+                selectedItems.map((selectedItem) => (
+                  <PreviewItem key={selectedItem.id} selectedItem={selectedItem} handleRemoveItem={() => handleRemoveItem(selectedItem)}/>
                 ))
               }
             </ul>
