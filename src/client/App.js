@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import './App.css';
 import Item from './components/item/item';
+import React, { useEffect, useState } from 'react';
 import PreviewItem from './components/previewItem/previewItem';
 
 const App = () => {
@@ -18,8 +18,8 @@ const App = () => {
       const data = await response.json();
       setItems(data.items)
     } catch(error) {
-        console.error("Error fetching items:", error);
-      }
+        // console.error("Error fetching items:", error);
+    }
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const App = () => {
   const totalSelectedItems = selectedItems.length;
 
   return (
-    <div className="wrapper">
+    <div data-testid="app" className="wrapper">
       <div className="menu-summary">
         <div className="container">
           <div className="row">
@@ -59,8 +59,11 @@ const App = () => {
             </div>
             <div className="col-6 menu-summary-right">
             {Object.entries(dietaryCounts).map(([dietary, count]) => (
-              <span>
-                {`${count}x`} <span key={dietary} className="dietary">{dietary}</span>
+              <span>{`${count}x`} 
+                <span 
+                  key={dietary} 
+                  className="dietary">{dietary}
+                </span>
               </span>
             ))}
             </div>
@@ -71,12 +74,24 @@ const App = () => {
         <div className="row">
           <div className="col-4">
             <div className="filters">
-              <input className="form-control" placeholder="Name" type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
+              <input 
+                className="form-control" 
+                placeholder="Name" 
+                type="text" 
+                value={searchQuery} 
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-            <ul className="item-picker">
+            <ul role="item-picker" className="item-picker">
               {items.length > 0 && (
                 items.map((item) => (
-                  <Item key={item.id} item={item} onSelect={() => handleItemSelect(item)} />
+                  <div role="side-item" key={item.id} data-testid={`item-${item.id}`}>
+                    <Item 
+                      key={item.id} 
+                      item={item} 
+                      onSelect={() => handleItemSelect(item)} 
+                  />
+                  </div>
                 ))
               )}
             </ul>
@@ -86,7 +101,11 @@ const App = () => {
             <ul className="menu-preview">
               {
                 selectedItems.map((selectedItem) => (
-                  <PreviewItem key={selectedItem.id} selectedItem={selectedItem} handleRemoveItem={() => handleRemoveItem(selectedItem)}/>
+                  <PreviewItem 
+                    key={selectedItem.id} 
+                    selectedItem={selectedItem} 
+                    handleRemoveItem={() => handleRemoveItem(selectedItem)}
+                  />
                 ))
               }
             </ul>

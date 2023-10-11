@@ -1,5 +1,5 @@
 import React from "react";
-// import './item.css';
+import './previewItem.css';
 
 const PreviewItem = ({selectedItem, handleRemoveItem}) => {
 
@@ -17,7 +17,7 @@ const PreviewItem = ({selectedItem, handleRemoveItem}) => {
             ))
           }
         </p>
-      <button className="remove-item" onClick={handleItemClick}>x</button>
+      <button role="remove" className="remove-item" onClick={handleItemClick}>x</button>
     </li>
   );
 };

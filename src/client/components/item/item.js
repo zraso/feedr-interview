@@ -7,18 +7,18 @@ const Item = ({ item, onSelect }) => {
     onSelect(item);
   };
    
-    return (
-        <li key={item.id} className="item" onClick={handleItemClick}>
-        <h2>{item.name}</h2>
-          <p>
-            {item.dietaries.length > 0 && (
-                item.dietaries.map((dietary) => (
-                    <span key={dietary} className="dietary">{dietary}</span>
-                ))
-            )}
-          </p>
-        </li>
-    );
+  return (
+    <li key={item.id} className="item" onClick={handleItemClick}>
+    <h2>{item.name}</h2>
+      <p>
+        {item.dietaries.length > 0 && (
+          item.dietaries.map((dietary) => (
+            <span key={dietary} className="dietary">{dietary}</span>
+          ))
+        )}
+      </p>
+    </li>
+  );
 };
 
 export default Item;
