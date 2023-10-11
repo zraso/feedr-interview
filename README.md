@@ -30,7 +30,7 @@ yarn test (or npm run test)
 * I decided to structure each component with its own .css file, as I normally find this folder structure really clear and easy for other developers to navigate. I would have liked to spend a bit more time removing some of the repetition between the .css files for the components and App.
 
 ### Data management
-* The data on this app is mainly managed using the `useState` hook. I believe that for the requirements of this task, this is a satisfactory system for managing the data from the server.
+* The data on this app is mainly managed using the `useState` hook. I believe that for the requirements of this task, this is a satisfactory system for managing the data recieved from the server.
 
 ### Testing plan
 * The key test cases I wanted to check on this are:
@@ -40,4 +40,4 @@ yarn test (or npm run test)
 - That data is fetched correctly using the `fetchItemsData` function
 - That the number of items is displayed correctly based on the total selected items
 
-I initially approached testing using `data-testid` to access elements in the code. However, I ran in to some problems accessing some of the elements rendered via the `.map` function, and firing events via React Testing Library. I started exploring creating a `TestApp` that could mock some of the data being returned, though I don't believe this is the best solution. With more time, I would have liked to continue using the mockData, but to resolve the missing elements with better component structure. Firing events are probably a deeper issue with the testing library, so I would continue to investigate alternative methods to resolve this.
+I initially approached testing using `data-testid` to access elements in the code. However, I ran in to some problems accessing some of the elements rendered via the `.map` function, and firing events via React Testing Library. I tried using some other properties, such as `role` but continued to have issues. I started exploring creating a `TestApp` that could mock some of the data being returned, though I don't believe this is the best solution. With more time, I would have liked to continue using the mockData, but to resolve the missing elements with better component structure. Firing events are probably a deeper issue with the testing library, so I would continue to investigate alternative methods to resolve this.
