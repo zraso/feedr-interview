@@ -18,7 +18,7 @@ const App = () => {
       const data = await response.json();
       setItems(data.items)
     } catch(error) {
-        // console.error("Error fetching items:", error);
+        console.error("Error fetching items:", error);
     }
   }
 
